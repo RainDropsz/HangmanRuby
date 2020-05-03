@@ -100,7 +100,7 @@ class Hangman
   def get_guess_or_save
     while true
       puts "    Please guess a letter:"
-      puts "        #{@alphabet[0..@alphabet.length/2].split("").join(" ")}"
+      puts "        #{@alphabet[0..@alphabet.length/2-1].split("").join(" ")}"
       puts "        #{@alphabet[@alphabet.length/2..-1].split("").join(" ")}"
       puts "    Or type 'save' to save the game"
       guess = gets.chomp.downcase
