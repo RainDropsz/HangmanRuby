@@ -13,26 +13,27 @@ class Hangman
 
     puts "    Let's play Hangman!"
 
-    get_new_or_saved
+    main_menu
 
-    print_word
+    print_word_and_remaining_guesses
 
 
-    until winner? || @remaining_guesses == 0 || guess == "save"
+    until winner? || @remaining_guesses == 0 
       guess = get_guess_or_save
-      guess == "save" ? break : remove_guess_from_alphabet(guess) 
+      guess != "save" ? remove_guess_from_alphabet(guess) : break
 
       @remaining_guesses -= 1 
-      print_word
-
+      print_word_and_remaining_guesses
     end
 
     guess == "save" ? 
     save :   
     winner? ? print_winner : print_loser
+
+    Hangman.new
   end
 
-  def get_new_or_saved
+  def main_menu
     puts "    1 - New Game"
     puts "    2 - View Saved Games"
 
@@ -44,7 +45,7 @@ class Hangman
       return
     else
       puts "    Please choose a number:"
-      get_new_or_saved
+      main_menu
     end
   end
 
@@ -61,8 +62,8 @@ class Hangman
     save_states.each_with_index do |line, index|
       hash = JSON.parse(line)
       puts "    " + (index+1).to_s + " - " + 
-           print_masked_word(hash["word"], hash["alphabet"]) + 
-           " Remaining Guesses: " + hash["remaining_guesses"].to_s
+           print_masked_word(hash["word"], hash["alphabet"]).ljust(24) + 
+           " Remaining Tries: " + hash["remaining_guesses"].to_s
     end
 
 
@@ -84,21 +85,23 @@ class Hangman
       puts "    Sorry, that is not a valid option."     
     end
 
-    get_new_or_saved
+    main_menu
   end
 
   def print_masked_word(word, alphabet)
-    masked_word = word.gsub(/[#{alphabet}]/i, "_").split("").join(" ").ljust(20)
+    masked_word = word.gsub(/[#{alphabet}]/i, "_").split("").join(" ")
   end
 
-  def print_word
+  def print_word_and_remaining_guesses
     @masked_word = @word.gsub(/[#{@alphabet}]/i, "_").split("").join(" ")
     puts "          #{@masked_word}       Remaining Guesses: #{@remaining_guesses}"    
   end
 
   def get_guess_or_save
     while true
-      puts "    Please guess a letter: #{@alphabet.split("").join(" ")}"
+      puts "    Please guess a letter:"
+      puts "        #{@alphabet[0..@alphabet.length/2].split("").join(" ")}"
+      puts "        #{@alphabet[@alphabet.length/2..-1].split("").join(" ")}"
       puts "    Or type 'save' to save the game"
       guess = gets.chomp.downcase
       break if guess =~ /[a-z]/ && @alphabet.include?(guess) || guess == "save"
