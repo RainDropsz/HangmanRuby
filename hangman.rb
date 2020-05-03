@@ -122,7 +122,7 @@ class Hangman
   end
 
   def print_loser
-    puts "Sorry, you did not guess the word: #{@word}"
+    puts "    Sorry, you did not guess the word: #{@word}"
   end
 
   def save
