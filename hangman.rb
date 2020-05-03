@@ -94,7 +94,7 @@ class Hangman
 
   def print_word_and_remaining_guesses
     @masked_word = @word.gsub(/[#{@alphabet}]/i, "_").split("").join(" ")
-    puts "          #{@masked_word}       Remaining Guesses: #{@remaining_guesses}"    
+    puts "    #{@masked_word}    Remaining Tries: #{@remaining_guesses}"    
   end
 
   def get_guess_or_save
