@@ -27,7 +27,7 @@ module MainMenu
   end
 
   def print_winner
-    puts 'Congratulations! You guessed the word!\n'
+    puts "    Congratulations! You guessed the word!\n"
   end
 
   def print_loser
